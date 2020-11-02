@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>红绿灯问题</title>
+</head>
+<style>
+div {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+  background: gray;
+  border-radius: 50%;
+  margin: 10px;
+}
+.yellow.active {
+  background: yellow;
+}
+.green.active {
+  background: green;
+}
+.red.active {
+  background: red;
+}
+</style>
+<body>
+  
+    <div class="green"></div>
+    <div class="yellow"></div>
+    <div class="red"></div>
+    <button id="next">next</button>
+    <script>
+      
+    var lights = document.getElementsByTagName('div')
+    function green() {
+      for (let i = 0; i< 3; i++) {
+        lights[i].classList.remove('active')
+
+      }
+      document.getElementsByClassName("green")[0].classList.add('active')
+    }
+  
+    function red() {
+      for (let i = 0; i< 3; i++) {
+        lights[i].classList.remove('active')
+      }
+      document.getElementsByClassName("red")[0].classList.add('active')
+    }
+  
+    function yellow() {
+      for (let i = 0; i< 3; i++) {
+        lights[i].classList.remove('active')
+      }
+      document.getElementsByClassName("yellow")[0].classList.add('active')
+    }
+    
+    function sleep(t) {
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, t)
+      })
+    }
+    // 手动控制
+    function next(dom, event) {
+      return new Promise((resolve, reject) => {
+        dom.addEventListener(event, resolve, {once: true})
+      })
+    }
+
+    function run1() {
+      green()
+      setTimeout(() => {
+        yellow()
+        setTimeout(() => {
+          red()
+          setTimeout(() => {
+            run1()
+          }, 500);
+        }, 200)
+      }, 1000)
+    }
+    
+    // promise
+    function run2() {
+      green()
+      sleep(1000).then(() => {
+        yellow()
+        // 返回promise, 链式调用
+        return sleep(200)
+      }).then(() => {
+        red()
+        return sleep(500)
+      }).then(() => {
+        run2()
+      })
+      // .then(run2)
+      // 不用加括号
+    }
+
+    async function run3() {
+      while(true) {
+        green()
+        await sleep(1000)
+        yellow()
+        await sleep(200)
+        red()
+        await sleep(500)
+      }
+    }
+
+    async function run4() {
+      while(true) {
+        green()
+        await next(document.getElementById('next'), 'click')
+        yellow()
+        await next(document.getElementById('next'), 'click')
+        red()
+        await next(document.getElementById('next'), 'click')
+      }
+    }
+
+
+    // 
+    async function* counter() {
+      let i = 0;
+      while(true) {
+        await sleep(1000)
+        yield i++
+      }
+    }
+    let value = counter()
+    async function go10() {
+      for await (let i of counter()) {
+        console.log(i)
+      }
+    }
+
+    
+    </script>
+</body>
+</html>
