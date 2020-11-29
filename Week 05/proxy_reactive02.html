@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>effect</title>
+</head>
+<body>
+<script>
+let object = {
+  a: 1,
+  b: 2
+}
+let callbacks = []
+
+let po = reactive(object)
+effect(() => {
+  console.log(po.a)
+})
+
+function effect(callback) {
+  callbacks.push(callback)
+}
+
+function reactive(object) {
+  return new Proxy(object, {
+    set(obj, prop, val) {
+      obj[prop] = val
+      for (let callback of callbacks) {
+        callback()
+      }
+      return obj[prop]
+    },
+    get(obj, prop) {
+      return object[prop]
+    }
+  })
+}
+
+  
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Range&CSSOM</title>
+</head>
+<body>
+  <div id="container">
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt doloremque accusantium unde perspiciatis optio commodi minus sed. Qui perspiciatis explicabo quae hic ab, placeat adipisci dolorum mollitia possimus, eius recusandae natus nulla ratione quia itaque et voluptatibus unde quaerat officiis. Repellendus culpa consequatur, maxime quam animi accusamus magni! Dolor enim consectetur perspiciatis accusamus delectus mollitia, veritatis dignissimos quibusdam. Dolorem atque hic porro nostrum. Itaque unde odio deserunt perspiciatis delectus nisi repudiandae, incidunt quibusdam quia officiis fugiat sapiente totam inventore quas dolorum voluptatibus, esse cupiditate. Temporibus voluptates, aperiam a numquam sed vel eum non error, nisi alias nihil sequi delectus officia. Necessitatibus tempore, a dicta soluta explicabo sunt consequuntur tempora unde dolorum. Ab eveniet similique iste aliquam nihil excepturi ratione quas, non ex odio harum deserunt alias maxime eius corporis voluptatum repellendus nesciunt culpa architecto sunt iusto est numquam vitae. Nisi officiis eligendi officia ratione laborum! Error nihil commodi expedita vel dicta ea beatae in aut, quisquam ad deleniti dignissimos cum provident reprehenderit. Fugiat, quis sunt voluptatem, quaerat necessitatibus veniam harum aliquid maxime cumque iste enim quos sint facilis in itaque nemo dolore consequatur ipsum velit. Distinctio nemo magni quibusdam maiores, porro qui illo impedit iusto non deserunt blanditiis enim officia minima esse doloribus quia, labore sed animi eaque ratione. Voluptates recusandae dicta adipisci cupiditate quod libero itaque eligendi architecto et? Possimus minus eius error, dignissimos non modi placeat ipsum inventore? Laborum qui soluta dignissimos quisquam vel accusantium nostrum nisi tenetur nesciunt dolores dolorum, debitis dolor laudantium sed itaque quos tempora explicabo. Quisquam provident voluptatum velit officia ad quos modi a id, consectetur beatae ullam nulla sint! Molestias, fugit similique aspernatur harum dignissimos id ea tempora doloribus eveniet ipsam odio assumenda repudiandae nihil atque quia excepturi omnis animi neque cumque placeat optio explicabo, mollitia eaque eligendi. Provident perspiciatis esse quasi culpa facere quae similique aliquid mollitia repellendus, recusandae, ab quo beatae. Sapiente optio reiciendis ratione eaque deleniti culpa. Doloremque illum pariatur temporibus id dicta fugit maiores harum maxime amet? Perspiciatis quisquam id exercitationem illum blanditiis, pariatur dolores officiis dolor minus hic nam repellat. Enim quae porro blanditiis nesciunt totam exercitationem est labore at deserunt? Amet consectetur inventore debitis iure, laborum et delectus eaque eius explicabo illum. Odit ipsa quasi ullam sapiente, veniam doloribus ab repudiandae ut sequi velit perferendis iste error eligendi asperiores obcaecati ratione illum. Nam, eveniet? Nostrum totam similique ullam qui molestias assumenda, incidunt tempora officia excepturi eos recusandae, ex beatae alias. Eius laborum nam neque eaque accusantium cumque doloremque blanditiis illum reiciendis, placeat at rerum mollitia. Quas, beatae ratione optio cum vitae est hic repudiandae quidem ex repellendus animi libero dolor laborum perferendis officia magni, aspernatur expedita. Suscipit, animi accusantium. Quod cumque illum nobis voluptas optio dicta eos molestias, assumenda ab hic magni et! Accusamus, officia quisquam laudantium corrupti dolores rem provident expedita quia? Rerum, error quibusdam. Veniam optio a provident similique dicta fugiat itaque alias aliquam quos earum in eius nostrum labore maiores sed numquam exercitationem cupiditate nesciunt pariatur perspiciatis, voluptates iste culpa ipsam facere! Labore, fuga.
+  </div>
+
+
+  <div style="display: inline-block;width: 100px;height: 100px;background: pink;" id="dragable"></div>
+
+  <script>
+    var dragable = document.getElementById("dragable")
+    let baseX = 0, baseY = 0;
+    dragable.addEventListener('mousedown', (event) => {
+      let startX = event.clientX, startY = event.clientY;
+      let up = event => {
+        baseX = baseX + event.clientX - startX;
+        baseY = baseY + event.clientY - startY;
+        document.removeEventListener("mousemove", move)
+        document.removeEventListener("mouseup", up)
+      }
+      let move = event => {
+        let range = getNearest(event.clientX, event.clientY)
+        range.insertNode(dragable)
+        // console.log(event.clientX, event.clientY)
+        // dragable.style.transform = `translate(${baseX + event.clientX - startX}px, ${baseY + event.clientY - startY}px)`
+      }
+
+      document.addEventListener("mousemove", move)
+      document.addEventListener("mouseup", up)
+    })
+
+
+
+
+
+    var container = document.getElementById('container')
+    var ranges = []
+    for (let i = 0; i < container.childNodes[0].textContent.length; i++) {
+      let range = document.createRange()
+      range.setStart(container.childNodes[0], i)
+      range.setEnd(container.childNodes[0], i)
+      ranges.push(range)
+    }
+
+    function getNearest(x, y) {
+      let min = Infinity;
+      let nearest = null;
+      for (let range of ranges) {
+        let rest = range.getBoundingClientRect();
+        let distance = (rest.x - x) ** 2 + (rest.y - y) ** 2
+        if (distance < min) {
+          min = distance
+          nearest = range
+        }
+      }
+      return nearest
+    }
+
+
+    document.addEventListener("selectstart", e => e.preventDefault())
+  </script>
+</body>
+</html>
