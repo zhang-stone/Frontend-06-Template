@@ -11,7 +11,7 @@ http.createServer((request, response) => {
     body = [].concat(body).toString();
     console.log("body:", body)
     response.writeHead(200, {'Content-Type': 'text/html'})
-    response.end("He22llo World\n");
+    response.end("Hello World\n");
   })
 }).listen(4000)
 
