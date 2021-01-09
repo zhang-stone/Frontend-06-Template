@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div>
+    <div id="id" class="class1 class2">
+
+    </div>
+  </div>
+  <script>
+    function matchSelector(selector, element) {
+      let list = selector.match(/(#|.)\w+/g);
+      let l = list.length;
+      let num = 0;
+      for (let d of list) {
+        if (d.charAt(0) === "#") {
+          if (element.id && element.id === d.replace('#', '')) {
+            num += 1;
+          }
+        } else if (d.charAt(0) === ".") {
+          if (element.className.length && element.className.includes(d.replace('.', ''))) {
+            num += 1;
+          }
+        } else {
+          if (element.tagName === d.toUpperCase()) {
+            num += 1;
+          }
+        }
+      }
+      return num === l;
+    }
+
+
+    function match(selector, element) {
+      let selectList = selector.split(" ").reverse() // [#id.class, div]
+      if (!matchSelector(selectList[0], element)) return false;
+      
+      let curElement = element;
+      let matched = 1
+      
+      while (curElement.parentElement !== null && matched < selectList.length) {
+        curElement = curElement.parentElement;
+        if (matchSelector(selectList[matched], curElement)) {
+          matched ++;
+        }
+      }
+      if (matched !== selectList.length) return false;
+      
+      return true;
+    }
+
+
+    var isMatch = match("div div .class2", document.getElementById("id"));
+    var isMatch1 = match("div .id", document.getElementById("id"));
+    var isMatch2 = match("div .class1", document.getElementById("id"));
+    var isMatch3 = match("div #id.class2", document.getElementById("id"));
+    var isMatch4 = match("div #id", document.getElementById("id"));
+    console.log(isMatch)
+    console.log(isMatch1)
+    console.log(isMatch2)
+    console.log(isMatch3)
+    console.log(isMatch4)
+  </script>
+</body>
+
+</html>

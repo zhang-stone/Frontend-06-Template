@@ -13,17 +13,29 @@ http.createServer((request, response) => {
     response.writeHead(200, {'Content-Type': 'text/html'})
     response.end(`
         <html lang="en">
-          <head>
-            <meta charset="UTF-8" />
-            <title>红绿灯问题</title>
-          </head>
-          <body>
-              <div class="green"></div>
-              <div class="yellow"></div>
-              <div class="red"></div>
-              <button id="next">next</button>
-          </body>
-        </html>`);
+            <head>
+              <meta charset="UTF-8" />
+              <title>红绿灯问题</title>
+            </head>
+            <style>
+              .body {
+                display: flex;
+                width: 500;
+                height: 300;
+              }
+              .yellow {
+                flex: 1;
+              }
+              .green {
+                width: 200px;
+              }
+            </style>
+            <div class="body">
+                <div class="green"></div>
+                <div class="yellow"></div>
+            </div>
+          </html>/n
+        `);
   })
 }).listen(4000)
 
