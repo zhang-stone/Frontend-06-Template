@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>正常流的行级排布</title>
+</head>
+<style>
+  .line-box {
+    vertical-align: middle;;
+    overflow: visible;
+    display: inline-block;
+    width: 1px;
+    height: 1px;
+  }
+  .line {
+    width: 1000px;
+    height: 1px;
+    background: red;
+  }
+  .level-line-box {
+    line-height: 70px;
+    width: 100px;
+    height: 150px;
+    background-color: aqua;
+    display: inline-block;
+    vertical-align: text-top;
+    /* vertical-align: middle; */
+  }
+  
+  .level-line-box2 {
+    line-height: 70px;
+    width: 100px;
+    height: 150px;
+    background-color: aqua;
+    display: inline-block;
+    
+    /* vertical-align: middle; */
+    /* vertical-align: text-top; */
+    vertical-align: text-bottom;
+  }
+</style>
+<body>
+  <div style="font-size: 50px; line-height: 100px; background-color: pink;">
+    <div class="line-box">
+      <div class="line"></div>
+    </div>
+    <span>Hello good 中文</span>
+    Hello
+
+    <div class="level-line-box">bc <br> gr </div>
+    <div class="level-line-box2">bc <br> gr </div>
+  </div>
+</body>
+</html>
