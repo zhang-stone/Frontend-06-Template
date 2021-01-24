@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RangeApi</title>
+</head>
+<body>
+  <div class="a">123<span>456</span>0123456789</div>
+  
+  <br>
+  <div class="box">
+    <p>1</p>
+    <p>2</p>
+    <p>3</p>
+    <p>4</p>
+    <p>5</p>
+  </div>
+  <script>
+    // var a = document.querySelector('.a')
+    // var range = new Range()
+    // range.setStart(a.childNodes[0], 1)
+    // range.setEnd(a.childNodes[2], 2)
+    
+    
+    
+    var box = document.querySelector('.box')
+    
+    function reverseChild(element) {
+      var range = new Range()
+      range.selectNodeContents(element)
+      
+      
+      let fragment = range.extractContents()
+      
+      let l = fragment.childNodes.length
+      while(l-- > 0) {
+        fragment.appendChild(fragment.childNodes[l])
+      }
+      
+      element.appendChild(fragment)
+    }
+    reverseChild(box)
+  </script>
+</body>
+</html>

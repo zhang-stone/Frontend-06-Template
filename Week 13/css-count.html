@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>css-计数器</title>
+  <style>
+    dl {
+      counter-reset: test1 -1;
+    }
+
+    dt {
+      counter-increment: test1;
+      counter-reset: test2 0;
+    }
+
+    dt:before {
+      content: counter(test1)"、";
+    }
+
+    dd {
+      counter-increment: test2;
+    }
+
+    dd:before {
+      content: counter(test1)"-"counter(test2)"、";
+    }
+  </style>
+</head>
+
+<body>
+  <dl>
+    <dt>example</dt>
+    <dd>example</dd>
+    <dd>example</dd>
+    <dd>example</dd>
+    <dt>example2</dt>
+    <dd>example2</dd>
+    <dd>example2</dd>
+    <dd>example2</dd>
+    <dd>example2</dd>
+  </dl>
+
+</body>
+
+</html>

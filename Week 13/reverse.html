@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>元素反转</title>
+</head>
+<body>
+  <div class="box">
+    <p>1</p>
+    <p>2</p>
+    <p>3</p>
+    <p>4</p>
+    <p>5</p>
+  </div>
+  <script>
+    var box = document.querySelector('.box')
+    function reseverChild() {
+      var l = box.childNodes.length;
+      while(l-- > 0) {
+        box.appendChild(box.childNodes[l])
+      }
+    }
+    
+  </script>
+</body>
+</html>
