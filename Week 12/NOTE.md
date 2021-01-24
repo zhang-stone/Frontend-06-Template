@@ -14,7 +14,7 @@
 #### Block Formatting Context，BFC
 默认能容纳正常流的盒, 都认为能创建BFC。
 例外: blcok-box: 里外都是BFC,并且overflow: visible; 发生BFC合并。
-\
+
 
 ##### css 属性分类
 https://wc12g1cjmw.feishu.cn/mindnotes/bmncnFSeBdFWIVFBuZ1SAecIgQd#mindmap
